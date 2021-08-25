@@ -97,7 +97,7 @@ function App() {
                   theme="vs-dark"
                   value={htmlCode}
                   options={{
-                    fontSize: "15px",
+                    fontSize: "14px",
                     cursorWidth: "2px",
                     cursorSmoothCaretAnimation: true,
                   }}
@@ -114,7 +114,7 @@ function App() {
                   theme="vs-dark"
                   value={cssCode}
                   options={{
-                    fontSize: "15px",
+                    fontSize: "14px",
                     cursorWidth: "2px",
                     cursorSmoothCaretAnimation: true,
                   }}
@@ -131,7 +131,7 @@ function App() {
                   theme="vs-dark"
                   value={jsCode}
                   options={{
-                    fontSize: "15px",
+                    fontSize: "14px",
                     cursorWidth: "2px",
                     cursorSmoothCaretAnimation: true,
                   }}
