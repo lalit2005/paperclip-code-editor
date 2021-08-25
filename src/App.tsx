@@ -10,11 +10,29 @@ function App() {
   const [cssCode, setCssCode] = useState<string>("html {}");
   const [jsCode, setJsCode] = useState<string>("console.log('Hello buddy')");
 
-  // useEffect(() => {
-  //   window.addEventListener("message", (event) => {
-  //     console.log(event.data);
-  //   });
-  // }, []);
+  useEffect(() => {
+    window.addEventListener("message", (event) => {
+      if (event.data.sentByPaperclip) {
+        // alert(JSON.stringify(event.data, null, 2));
+        // console.log(event.data.initialHTML);
+        setHtmlCode(event.data?.initialHTML);
+        setCssCode(event.data?.initialCss);
+        setJsCode(event.data?.initialJs);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    window.top.postMessage(
+      {
+        sentToPaperclip: true,
+        htmlCode,
+        cssCode,
+        jsCode,
+      },
+      "*"
+    );
+  }, [htmlCode, cssCode, jsCode]);
 
   const finalCode = {
     html: htmlCode,
@@ -83,7 +101,19 @@ function App() {
                 <div>
                   <button
                     id="copy-btn"
-                    className="px-5 py-1 my-2 bg-gray-900 border border-gray-300 rounded cursor-pointer hover:bg-gray-700 text-gray-50">
+                    className="px-5 py-1 my-2 bg-gray-900 border border-gray-300 rounded cursor-pointer hover:bg-gray-700 text-gray-50"
+                    onClick={() => {
+                      window.top.postMessage(
+                        {
+                          sentToPaperclip: true,
+                          saveCode: true,
+                          htmlCode: htmlCode,
+                          cssCode: cssCode,
+                          jsCode: jsCode,
+                        },
+                        "*"
+                      );
+                    }}>
                     Save
                   </button>
                 </div>
