@@ -22,18 +22,6 @@ function App() {
     });
   }, []);
 
-  useEffect(() => {
-    window.top.postMessage(
-      {
-        sentToPaperclip: true,
-        htmlCode,
-        cssCode,
-        jsCode,
-      },
-      "*"
-    );
-  }, [htmlCode, cssCode, jsCode]);
-
   const finalCode = {
     html: htmlCode,
     css: cssCode,
