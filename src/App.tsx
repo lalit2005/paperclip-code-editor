@@ -24,8 +24,8 @@ function App() {
 
   return (
     <div className="w-screen h-screen overflow-hidden">
-      <div className="flex flex-wrap md:flex-row flex-col items-center justify-between">
-        <div className="w-full h-screen flex-1 border-r-2 border-gray-900">
+      <div className="flex flex-col flex-wrap items-center justify-between md:flex-row">
+        <div className="flex-1 w-full h-screen border-r-2 border-gray-900">
           {/* <div className="flex flex-row"> */}
           <Tabs.Root
             defaultValue="html"
@@ -33,7 +33,7 @@ function App() {
             // @ts-ignore
             onValueChange={(tab) => setTab(tab)}>
             <Tabs.List>
-              <div className="flex justify-around items-center">
+              <div className="flex items-center justify-around">
                 <div>
                   <img
                     src="https://usepaperclip.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fimage%2Fpublic%2Flogos%2Flogo-transparent.60ff908df88fee4383cf587db29bed03.png&w=384&q=75"
@@ -66,7 +66,7 @@ function App() {
                 <div>
                   <button
                     id="copy-btn"
-                    className="px-5 border py-1 bg-gray-100 hover:bg-gray-200 border-gray-300 rounded my-2 cursor-pointer"
+                    className="px-5 py-1 my-2 bg-gray-100 border border-gray-300 rounded cursor-pointer hover:bg-gray-200"
                     onClick={() => {
                       const btn = document.getElementById("copy-btn");
                       window.navigator.clipboard.writeText(finalCode[tab]);
@@ -83,7 +83,7 @@ function App() {
                 <div>
                   <button
                     id="copy-btn"
-                    className="px-5 border py-1 bg-gray-900 hover:bg-gray-700 text-gray-50 border-gray-300 rounded my-2 cursor-pointer">
+                    className="px-5 py-1 my-2 bg-gray-900 border border-gray-300 rounded cursor-pointer hover:bg-gray-700 text-gray-50">
                     Save
                   </button>
                 </div>
@@ -99,6 +99,7 @@ function App() {
                   options={{
                     fontSize: "15px",
                     cursorWidth: "2px",
+                    cursorSmoothCaretAnimation: true,
                   }}
                   // @ts-ignore
                   onChange={(val, e) => setHtmlCode(val)}
@@ -115,6 +116,7 @@ function App() {
                   options={{
                     fontSize: "15px",
                     cursorWidth: "2px",
+                    cursorSmoothCaretAnimation: true,
                   }}
                   // @ts-ignore
                   onChange={(val, e) => setCssCode(val)}
@@ -131,6 +133,7 @@ function App() {
                   options={{
                     fontSize: "15px",
                     cursorWidth: "2px",
+                    cursorSmoothCaretAnimation: true,
                   }}
                   // @ts-ignore
                   onChange={(val, e) => setJsCode(val)}
@@ -139,7 +142,7 @@ function App() {
             </Tabs.Content>
           </Tabs.Root>
         </div>
-        <div className="w-full h-full flex-1">
+        <div className="flex-1 w-full h-full">
           <ReactSrcDocIframe
             srcDoc={`
 						<!DOCTYPE html>
