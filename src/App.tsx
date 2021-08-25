@@ -89,21 +89,24 @@ function App() {
                     tab === "html" &&
                     "ring-2 ring-offset-1 shadow ring-gray-700"
                   }`}
-                  value="html">
+                  value="html"
+                  title="Cmd/Ctrl + 1">
                   HTML
                 </Tabs.Trigger>
                 <Tabs.Trigger
                   className={`px-5 border py-1 bg-gray-100 hover:bg-gray-200 border-gray-300 rounded my-2 cursor-pointer ${
                     tab === "css" && "ring-2 ring-offset-1 shadow ring-gray-700"
                   }`}
-                  value="css">
+                  value="css"
+                  title="Cmd/Ctrl + 2">
                   CSS
                 </Tabs.Trigger>
                 <Tabs.Trigger
                   className={`px-5 border py-1 bg-gray-100 hover:bg-gray-200 border-gray-300 rounded my-2 cursor-pointer ${
                     tab === "js" && "ring-2 ring-offset-1 shadow ring-gray-700"
                   }`}
-                  value="js">
+                  value="js"
+                  title="Cmd/Ctrl + 3">
                   JS
                 </Tabs.Trigger>
                 <div>
@@ -119,7 +122,8 @@ function App() {
                         // @ts-ignore
                         btn.innerHTML = "Copy code";
                       }, 1000);
-                    }}>
+                    }}
+                    title="Cmd/Ctrl + 4">
                     Copy Code
                   </button>
                 </div>
@@ -138,7 +142,8 @@ function App() {
                         },
                         "*"
                       );
-                    }}>
+                    }}
+                    title="Cmd/Ctrl + S">
                     Save
                   </button>
                 </div>
