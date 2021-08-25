@@ -20,6 +20,43 @@ function App() {
         setJsCode(event.data?.initialJs);
       }
     });
+    window.onkeydown = (e) => {
+      // if cmd/ctrl + s is pressed, console log Saved
+      if (e.key === "s" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        window.top.postMessage(
+          {
+            sentToPaperclip: true,
+            saveCode: true,
+            htmlCode: htmlCode,
+            cssCode: cssCode,
+            jsCode: jsCode,
+          },
+          "*"
+        );
+      }
+      // if cmd/ctrl + 1 is pressed, set tab to "html"
+      if (e.key === "1" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setTab("html");
+      }
+      // if cmd/ctrl + 2 is pressed, set tab to "css"
+      if (e.key === "2" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setTab("css");
+      }
+      // if cmd/ctrl + 3 is pressed, set tab to "js"
+      if (e.key === "3" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setTab("js");
+      }
+      // if cmd/ctrl + 4 is pressed, copy code
+      if (e.key === "4" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        // @ts-ignore
+        document.querySelector("#copy-btn").click();
+      }
+    };
   }, []);
 
   const finalCode = {
@@ -88,7 +125,7 @@ function App() {
                 </div>
                 <div>
                   <button
-                    id="copy-btn"
+                    id="save-btn"
                     className="px-5 py-1 my-2 bg-gray-900 border border-gray-300 rounded cursor-pointer hover:bg-gray-700 text-gray-50"
                     onClick={() => {
                       window.top.postMessage(
