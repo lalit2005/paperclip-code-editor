@@ -6,6 +6,8 @@ import ReactSrcDocIframe from "react-srcdoc-iframe";
 // import * as Popover from "@radix-ui/react-popover";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
+// @ts-ignore
+import htmltojsx from "html-2-jsx";
 
 function App() {
   const [tab, setTab] = useState<"html" | "css" | "js">("html");
@@ -49,6 +51,11 @@ function App() {
         // @ts-ignore
         document.querySelector("#copy-btn").click();
       }
+      if (e.key === "5" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        // @ts-ignore
+        document.querySelector("#copy-jsx-btn").click();
+      }
     };
   }, []);
 
@@ -71,7 +78,7 @@ function App() {
             // @ts-ignore
             onValueChange={(tab) => setTab(tab)}>
             <Tabs.List>
-              <div className="flex flex-wrap items-center justify-around">
+              <div className="flex flex-wrap items-center justify-around nav">
                 <div>
                   <img
                     src="https://usepaperclip.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fimage%2Fpublic%2Flogos%2Flogo-transparent.60ff908df88fee4383cf587db29bed03.png&w=384&q=75"
@@ -80,7 +87,7 @@ function App() {
                   />
                 </div>
                 <Tabs.Trigger
-                  className={`px-5 border py-1 bg-gray-100 hover:bg-gray-200 border-gray-300 rounded my-2 cursor-pointer ${
+                  className={`px-5 border py-1 hover:bg-gray-100 border-gray-300 rounded my-2 cursor-pointer ${
                     tab === "html" &&
                     "ring-2 ring-offset-1 shadow ring-gray-700"
                   }`}
@@ -89,7 +96,7 @@ function App() {
                   HTML
                 </Tabs.Trigger>
                 <Tabs.Trigger
-                  className={`px-5 border py-1 bg-gray-100 hover:bg-gray-200 border-gray-300 rounded my-2 cursor-pointer ${
+                  className={`px-5 border py-1 hover:bg-gray-100 border-gray-300 rounded my-2 cursor-pointer ${
                     tab === "css" && "ring-2 ring-offset-1 shadow ring-gray-700"
                   }`}
                   value="css"
@@ -97,7 +104,7 @@ function App() {
                   CSS
                 </Tabs.Trigger>
                 <Tabs.Trigger
-                  className={`px-5 border py-1 bg-gray-100 hover:bg-gray-200 border-gray-300 rounded my-2 cursor-pointer ${
+                  className={`px-5 border py-1 hover:bg-gray-100 border-gray-300 rounded my-2 cursor-pointer ${
                     tab === "js" && "ring-2 ring-offset-1 shadow ring-gray-700"
                   }`}
                   value="js"
@@ -124,8 +131,35 @@ function App() {
                 </div>
                 <div>
                   <button
+                    id="copy-jsx-btn"
+                    className="px-5 py-1 my-2 bg-gray-100 border border-gray-300 rounded cursor-pointer hover:bg-gray-200"
+                    onClick={() => {
+                      const btn = document.getElementById("copy-jsx-btn");
+                      const converter = new htmltojsx({
+                        indent: "\t",
+                        hideComment: false,
+                        createClass: false,
+                        outputClassName: "PaperclipComponent",
+                      });
+
+                      window.navigator.clipboard.writeText(
+                        converter.convert(htmlCode)
+                      );
+                      // @ts-ignore
+                      btn.innerHTML = "Done!! ✅";
+                      setTimeout(() => {
+                        // @ts-ignore
+                        btn.innerHTML = "Copy JSX";
+                      }, 1000);
+                    }}
+                    title="Cmd/Ctrl + 4">
+                    Copy JSX
+                  </button>
+                </div>
+                <div>
+                  <button
                     id="save-btn"
-                    className="px-5 py-1 my-2 bg-gray-900 border border-gray-300 rounded cursor-pointer hover:bg-gray-700 text-gray-50"
+                    className="px-5 py-1 my-2 bg-gray-900 rounded shadow cursor-pointer hover:bg-gray-700 text-gray-50"
                     onClick={() => {
                       window.top.postMessage(
                         {
@@ -257,6 +291,11 @@ function App() {
           />
         </div>
       </SplitterLayout>
+      <style>{`
+			.nav > * {
+					margin-right: 6px;
+				}
+			`}</style>
     </div>
   );
 }

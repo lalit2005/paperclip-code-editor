@@ -10,6 +10,7 @@
     "@monaco-editor/react": "^4.2.2",
     "@radix-ui/react-popover": "^0.0.20",
     "@radix-ui/react-tabs": "^0.0.16",
+    "html-2-jsx": "^0.5.1-dev",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-splitter-layout": "^4.0.0",
