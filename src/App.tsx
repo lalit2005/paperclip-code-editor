@@ -3,7 +3,10 @@ import Editor from "@monaco-editor/react";
 import * as Tabs from "@radix-ui/react-tabs";
 // @ts-ignore
 import ReactSrcDocIframe from "react-srcdoc-iframe";
-import * as Popover from "@radix-ui/react-popover";
+// import * as Popover from "@radix-ui/react-popover";
+import SplitterLayout from "react-splitter-layout";
+import "react-splitter-layout/lib/index.css";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const [tab, setTab] = useState<"html" | "css" | "js">("html");
@@ -58,18 +61,26 @@ function App() {
     js: jsCode,
   };
 
+  const [isDragging, setIsDragging] = useState(false);
   return (
     <div className="w-screen h-screen overflow-hidden">
-      <div className="flex flex-col flex-wrap items-center justify-between md:flex-row">
-        <div className="flex-1 w-full h-screen border-r-2 border-gray-900">
-          {/* <div className="flex flex-row"> */}
+      <SplitterLayout
+        onDragStart={() => {
+          setIsDragging(true);
+          toast("Click back on the divider itself to stop resizing", {
+            icon: "👋",
+            position: "bottom-left",
+          });
+        }}
+        onDragEnd={() => setIsDragging(false)}>
+        <div className="w-full h-screen border-r-2 border-gray-500">
           <Tabs.Root
             defaultValue="html"
             value={tab}
             // @ts-ignore
             onValueChange={(tab) => setTab(tab)}>
             <Tabs.List>
-              <div className="flex items-center justify-around">
+              <div className="flex flex-wrap items-center justify-around">
                 <div>
                   <img
                     src="https://usepaperclip.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fimage%2Fpublic%2Flogos%2Flogo-transparent.60ff908df88fee4383cf587db29bed03.png&w=384&q=75"
@@ -140,7 +151,7 @@ function App() {
                     Save
                   </button>
                 </div>
-                <div>
+                {/* <div>
                   <Popover.Root>
                     <Popover.Trigger>
                       <button
@@ -170,7 +181,7 @@ function App() {
                       <Popover.Arrow />
                     </Popover.Content>
                   </Popover.Root>
-                </div>
+                </div> */}
               </div>
             </Tabs.List>
             <Tabs.Content value="html">
@@ -226,9 +237,8 @@ function App() {
             </Tabs.Content>
           </Tabs.Root>
         </div>
-        <div className="flex-1 w-full h-full">
-          <ReactSrcDocIframe
-            srcDoc={`
+        <ReactSrcDocIframe
+          srcDoc={`
 						<!DOCTYPE html>
 						<html>
 							<head>
@@ -241,18 +251,17 @@ function App() {
 							</body>
 						</html>
 						`}
-            title="ReactSrcDocIframe"
-            height="100%"
-            allowFullScreen
-            allowScriptAccess="always"
-            frameBorder="0"
-            style={{
-              width: "100%",
-              height: "100vh",
-            }}
-          />
-        </div>
-      </div>
+          title="ReactSrcDocIframe"
+          height="100%"
+          allowFullScreen
+          allowScriptAccess="always"
+          frameBorder="0"
+          style={{
+            width: !isDragging && "100%",
+          }}
+        />
+      </SplitterLayout>
+      <Toaster />
     </div>
   );
 }
