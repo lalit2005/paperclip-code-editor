@@ -6,7 +6,6 @@ import ReactSrcDocIframe from "react-srcdoc-iframe";
 // import * as Popover from "@radix-ui/react-popover";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
-import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const [tab, setTab] = useState<"html" | "css" | "js">("html");
@@ -17,8 +16,6 @@ function App() {
   useEffect(() => {
     window.addEventListener("message", (event) => {
       if (event.data.sentByPaperclip) {
-        // alert(JSON.stringify(event.data, null, 2));
-        // console.log(event.data.initialHTML);
         setHtmlCode(event.data?.initialHTML);
         setCssCode(event.data?.initialCss);
         setJsCode(event.data?.initialJs);
@@ -65,15 +62,9 @@ function App() {
   return (
     <div className="w-screen h-screen overflow-hidden">
       <SplitterLayout
-        onDragStart={() => {
-          setIsDragging(true);
-          toast("Click back on the divider itself to stop resizing", {
-            icon: "👋",
-            position: "bottom-left",
-          });
-        }}
+        onDragStart={() => setIsDragging(true)}
         onDragEnd={() => setIsDragging(false)}>
-        <div className="w-full h-screen border-r-2 border-gray-500">
+        <div className="h-screen border-r-2 border-gray-500">
           <Tabs.Root
             defaultValue="html"
             value={tab}
@@ -237,8 +228,10 @@ function App() {
             </Tabs.Content>
           </Tabs.Root>
         </div>
-        <ReactSrcDocIframe
-          srcDoc={`
+        <div className="w-full h-full">
+          {isDragging && <div className="absolute w-full h-full"></div>}
+          <ReactSrcDocIframe
+            srcDoc={`
 						<!DOCTYPE html>
 						<html>
 							<head>
@@ -251,17 +244,19 @@ function App() {
 							</body>
 						</html>
 						`}
-          title="ReactSrcDocIframe"
-          height="100%"
-          allowFullScreen
-          allowScriptAccess="always"
-          frameBorder="0"
-          style={{
-            width: !isDragging && "100%",
-          }}
-        />
+            title="ReactSrcDocIframe"
+            height="100%"
+            allowFullScreen
+            allowScriptAccess="always"
+            frameBorder="0"
+            style={{
+              width: "100%",
+              height: "100%",
+              border: "none",
+            }}
+          />
+        </div>
       </SplitterLayout>
-      <Toaster />
     </div>
   );
 }
