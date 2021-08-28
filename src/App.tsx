@@ -11,7 +11,9 @@ import htmltojsx from "html-2-jsx";
 
 function App() {
   const [tab, setTab] = useState<"html" | "css" | "js">("html");
-  const [htmlCode, setHtmlCode] = useState<string>("<p>Hello world</p>");
+  const [htmlCode, setHtmlCode] = useState<string>(
+    "<h1>Loading...</h1>\n<small>If this does not seem to load, please try refreshing the page</small>"
+  );
   const [cssCode, setCssCode] = useState<string>("html {}");
   const [jsCode, setJsCode] = useState<string>("console.log('Hello buddy')");
 
